@@ -1,0 +1,6 @@
+{
+  "name": "folio",
+  "description": "folio, a Claude Code mod that shows the files of your project in a pane beside the chat.",
+  "owner": { "name": "Krishna Goutham" },
+  "plugins": [{ "name": "folio", "source": "./" }]
+}

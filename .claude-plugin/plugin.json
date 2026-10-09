@@ -1,0 +1,9 @@
+{
+  "name": "folio",
+  "version": "0.1.0",
+  "description": "Read the files of your project in a calm pane beside the chat.",
+  "types": "./types/index.d.ts",
+  "author": { "name": "Krishna Goutham" },
+  "license": "MIT",
+  "repository": "https://github.com/krishna-goutham-tls/folio"
+}
