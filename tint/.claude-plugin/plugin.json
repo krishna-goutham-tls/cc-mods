@@ -1,0 +1,9 @@
+{
+  "name": "tint",
+  "version": "0.1.0",
+  "description": "Restyles your message and Claude's reply, in two looks that follow macOS dark and light.",
+  "types": "./types/index.d.ts",
+  "author": { "name": "Krishna Goutham" },
+  "license": "MIT",
+  "repository": "https://github.com/krishna-goutham-tls/cc-mods"
+}

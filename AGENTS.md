@@ -1,33 +1,34 @@
-# folio
+# cc-mods
 
-A Claude Code mod: `/files` opens a pane beside the chat that shows the files of the project. `README.md` says what it does. `TRACKER.md` has the open work.
+Two Claude Code mods in one repo, `folio/` and `tint/`. `README.md` says what each one does.
 
 ## Where things are
 
 | Task | Where to look |
 |---|---|
-| A hook, a command, any read of the disk | `hooks/register.tsx` |
-| How markdown becomes rows | `hooks/markdown.ts`, `hooks/text.ts` |
-| How a file becomes a document | `hooks/load.ts`, `hooks/files.ts` |
-| What the pane draws | `hooks/view.tsx`, `hooks/theme.ts` |
-| The state the pane keeps | `types/index.d.ts` |
-| Tests | `tests/` |
+| The list of mods a person can install from this repo | `.claude-plugin/marketplace.json` |
+| The file pane | `folio/`, start at `folio/AGENTS.md` |
+| The restyle of the transcript and the status line | `tint/`, start at `tint/AGENTS.md` |
+| Open work for a mod | `TRACKER.md` in its folder |
 
 ## Rules
 
-1. `$` goes only to functions declared at the top of `hooks/register.tsx`. The validator refuses a mod that passes it anywhere else. Every other file stays free of `$`.
-2. One row of a document is one line of the terminal. The scroll, the thumb and the fixed header all count rows, so nothing in `hooks/view.tsx` may wrap by itself.
-3. The mod reads. It does not write in the project, call the network, or change a tool call.
-4. A file that can hold secrets stays hidden until the person clicks `Reveal`. The list is `SECRET` in `hooks/files.ts`.
-5. A test that starts Claude Code itself lets the session run about 14 seconds and leaves with `/exit`. Claude Code counts a fullscreen session killed in its first seconds as a failed start, and after two it turns fullscreen off for every new session on that machine. `/tui fullscreen` turns it back on.
+1. A mod is one folder with its own `.claude-plugin/plugin.json`, `hooks/`, `tests/`, `types/`, `README.md`, `AGENTS.md` and `TRACKER.md`. A mod imports nothing from another mod's folder.
+2. A new mod gets one entry in `.claude-plugin/marketplace.json` with `"source": "./<folder>"`, and one section in `README.md`.
+3. The build rules of a mod are in its own `AGENTS.md`. Read that file before you change the mod.
+4. A picture in a `docs/` folder comes from a made-up sample project. It shows no real folder name, no account name and no path of a home folder.
+5. The mod API is early access. Each `README.md` names the Claude Code version the mod was built on. Run the checks again after a Claude Code update.
 
 ## Commands
 
-Run from this folder.
+Run from the repo root.
 
 ```sh
-claude plugin validate .
-claude plugin test .
-npx -p typescript tsc -p .
-claude --plugin-dir .
+claude plugin validate .        # the marketplace file
+claude plugin validate folio    # one mod: manifest and hooks
+claude plugin test folio
+(cd folio && npx -p typescript tsc -p .)
+claude --plugin-dir folio       # a session with the mod loaded from its folder
 ```
+
+The same four work for `tint`. Claude Code writes `.claude-plugin/types/` into a mod's folder when it loads the mod from there. `tsc` needs that folder, so load the mod once before the first type-check. Git ignores it.

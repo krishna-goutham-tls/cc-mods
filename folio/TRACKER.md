@@ -1,12 +1,13 @@
 # folio - Tracker
 
-Open work, in the order I would do it. Tick a line only when it is checked in a real terminal.
+Open work, in the order to do it. Tick a line only when it is checked in a real terminal.
 
 ## Check
 
 - [ ] Pictures in Ghostty: a PNG, a JPG and the first page of a PDF
 - [ ] Hover and click feel on a trackpad, in a light and a dark theme
 - [ ] A project with a few thousand files in one folder
+- [ ] `tsc` with MCP servers connected. Claude Code writes the inputs of the connected MCP tools to `.claude-plugin/types/claude-code-mcp/`. With that file filled, `e.file_path` in the two `tool.call` hooks of `hooks/register.tsx` no longer type-checks. With the file empty it does
 
 ## Build
 
