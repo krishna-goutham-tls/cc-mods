@@ -464,7 +464,8 @@ export const register: Register = on => {
   on('tool.call', { tool: 'Edit' }, async ($, e, next) => {
     const result = await next(e)
 
-    if (!isIdle) {
+    // An MCP tool with an input named `tool` adds a variant without `file_path` to the type of `e`.
+    if (!isIdle && 'file_path' in e) {
       await noteWrite($, e.file_path)
     }
 
@@ -474,7 +475,8 @@ export const register: Register = on => {
   on('tool.call', { tool: 'Write' }, async ($, e, next) => {
     const result = await next(e)
 
-    if (!isIdle) {
+    // An MCP tool with an input named `tool` adds a variant without `file_path` to the type of `e`.
+    if (!isIdle && 'file_path' in e) {
       await noteWrite($, e.file_path)
     }
 
