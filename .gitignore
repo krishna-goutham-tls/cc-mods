@@ -2,3 +2,5 @@
 **/.claude-plugin/types/
 .DS_Store
 node_modules/
+# A copy of tint/looks/ that a test session makes, so that /theme lists the four fixed themes.
+tint/themes/

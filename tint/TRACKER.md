@@ -5,7 +5,7 @@ Open work, in the order to do it. Tick a line only when it is checked in a real 
 ## Check
 
 - [ ] A clean install from the marketplace: the mod writes `tint.json` and `tint/statusline.sh`, `/theme` lists "Tint (auto)", and the status line shows with the `bash ~/.claude/tint/statusline.sh` line
-- [x] `/theme` lists the four fixed themes next to "Tint (auto)". "Tint grok light" was picked there on 2026-10-11
+- [ ] `/theme` in a real terminal window lists "Tint (auto)" and no other tint theme. Seen in a test terminal on 2026-10-11
 - [ ] A real change of macOS appearance with a session open on "Tint (auto)"
 - [ ] Two sessions open on "Tint (auto)": `/tint next` in one, the other follows within 5 seconds
 - [ ] The blocks in a real terminal window, dark and light. The README pictures are from a test terminal
@@ -20,12 +20,12 @@ Open work, in the order to do it. Tick a line only when it is checked in a real 
 
 ## Build
 
-- [ ] A way to pick dark or light by hand on "Tint (auto)", for Linux and Windows
+- [ ] A way to pick dark or light by hand on "Tint (auto)", for Linux and Windows. The fixed light themes are gone from `/theme`, so Linux has only the dark colors
 - [ ] The desktop app. The mod draws on the terminal only
 
 ## Done
 
-- [x] Four theme files and the status line
+- [x] Four color files and the status line
 - [x] The mod: blocks for the prompt and the reply, `/tint`, the dark and light follower, the generated "Tint (auto)" theme
 - [x] Command output, the spinner and the turn end line on the text edge
 - [x] A new install gets `tint.json` and a copy of the status line script at the start of a session
@@ -46,3 +46,5 @@ Any change of behaviour an agent makes goes here as one line: date, what changed
 - 2026-10-11: a reply stays on the engine's markdown renderer. Headings, list markers and inline code keep the engine's colors. A renderer of our own would be the largest part of the mod, for three colors.
 - 2026-10-11: the status line script reads `tint/active` and `settings.json` from the folder in `CLAUDE_CONFIG_DIR` when it is set. It read `~/.claude` only, so a session with its own config folder got the look of the default one.
 - 2026-10-11: the theme the mod writes is named "Tint (auto)", and the four fixed themes end in "(fixed)". The `/theme` list showed five rows that started with "Tint" and gave no sign of which one follows `/tint` and the macOS mode. The theme ids did not change.
+- 2026-10-11: the four color files moved from `themes/` to `looks/`, so `/theme` lists only "Tint (auto)". A fixed dark theme in a light terminal window gave a dark reply block with dark text. The mod still draws for the four fixed names, which now exist only in a test copy that has `cp -R looks themes`.
+- 2026-10-11: the text of a reply keeps the terminal's own color. `Markdown` takes no color, and the engine refuses a `Markdown` inside a `Text`.

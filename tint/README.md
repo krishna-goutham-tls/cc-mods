@@ -56,7 +56,9 @@ Type `/theme` and choose "Tint (auto)". Claude Code stores the choice as `custom
 
 Claude Code does not let a mod set a custom theme, so you pick it once by hand. From then on the mod rewrites the theme's file, `~/.claude/themes/tint.json`, when the look or the mode changes. Claude Code reads a theme file again when it changes, in every open session.
 
-The four sets also work as fixed themes: `custom:tint:tint-warm-dark`, `custom:tint:tint-warm-light`, `custom:tint:tint-grok-dark` and `custom:tint:tint-grok-light`. A fixed theme holds one look and one mode. The mod draws the blocks for it and writes no file. To use one, set it as `"theme"` in `~/.claude/settings.json`.
+"Tint (auto)" is the only tint theme in `/theme`. You pick the look with `/tint`, and the mode comes from macOS.
+
+The colors assume that your terminal is dark when macOS is dark, and light when macOS is light. Claude Code draws the text of a reply in the terminal's own text color, and the mod cannot change that. If the terminal and macOS disagree, the reply in the warm look is hard to read.
 
 With any other theme the session looks standard.
 
@@ -77,9 +79,9 @@ Running `/tint` does not call the model. Claude Code keeps the command and its o
 
 On macOS the mod asks the system for the mode at the start of a session and then every 5 seconds, with `defaults read -g AppleInterfaceStyle`. When the mode or the look has changed, it writes `tint.json` again. The mod API has no event for a change of mode, so the mod polls. It writes nothing while the file is already right.
 
-On Linux there is no `defaults` command. The mod keeps the mode that `tint.json` already holds, and a new `tint.json` is dark. `/tint` still switches the look. For the light colors, use one of the two fixed light themes from the section above.
+On Linux there is no `defaults` command. The mod keeps the mode that `tint.json` already holds, and a new `tint.json` is dark. `/tint` still switches the look. There is no way to get the light colors there yet.
 
-On Windows the mod needs `HOME` and the `mv` command, which Git Bash and WSL have. Without them it writes nothing and draws only for the four fixed themes. The status line script needs `bash`.
+On Windows the mod needs `HOME` and the `mv` command, which Git Bash and WSL have. Without them it writes nothing. The status line script needs `bash`.
 
 tint has not been run on Linux or Windows. The two paragraphs above come from the code and its tests.
 
@@ -112,7 +114,7 @@ The mod API of Claude Code is early access. A later release can change it and br
 A mod runs inside Claude Code, so it is fair to ask what this one does.
 
 - It writes three files, all in Claude Code's config folder: `themes/tint.json`, `tint/active`, which holds the look, and `tint/statusline.sh`. It writes a draft of `tint.json` next to `tint/active` and moves it into place with `mv`.
-- It reads those files, the `theme` setting, and its own `themes/` and `statusline/` folders.
+- It reads those files, the `theme` setting, and its own `looks/` and `statusline/` folders.
 - It runs two programs: `defaults`, to ask macOS for the mode, and `mv`.
 - It makes no network call, reads nothing in your project and changes no tool call.
 - It never writes `settings.json`.
@@ -123,7 +125,7 @@ The config folder is `~/.claude`, or the folder in `CLAUDE_CONFIG_DIR` when Clau
 
 ## How it works
 
-- `themes/` has the four sets of colors. `tint.json` always holds one of them with the name set to "Tint (auto)". To change a color, change it in these four files.
+- `looks/` has the four sets of colors. `tint.json` always holds one of them with the name set to "Tint (auto)". To change a color, change it in these four files.
 - `hooks/register.tsx` has the hooks: the blocks, `/tint`, and the timer that keeps `tint.json` in step.
 - `hooks/palette.ts` has the two colors that no theme key holds: the text color in your block and the fill of the reply.
 - `statusline/statusline.sh` reads the session JSON on stdin and prints one line. The field list is at https://code.claude.com/docs/en/statusline.
@@ -138,11 +140,12 @@ tint is one of two mods in the `cc-mods` repo. Its folder is `tint/`.
 
 ```sh
 git clone https://github.com/krishna-goutham-tls/cc-mods
-cd cc-mods/tint
+cp -R cc-mods/tint tint-dev && cd tint-dev
+cp -R looks themes
 claude --plugin-dir . --settings '{"theme":"custom:tint:tint-warm-dark"}'
 ```
 
-The `--settings` part forces a fixed theme for that session, so the mod writes no theme file while you try a change. `AGENTS.md` says why that matters.
+The copy of `looks/` as `themes/` gives that session four fixed themes, one for each look and mode. The `--settings` part forces one of them, so the mod writes no theme file while you try a change. `AGENTS.md` says why that matters.
 
 ```sh
 claude plugin validate .

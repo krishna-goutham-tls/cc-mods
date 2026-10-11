@@ -16,9 +16,9 @@ export const PALETTE: Record<TintLook, Record<TintMode, { userFg: string; replyB
 /** The one theme the mod rewrites. Its file is `themes/tint.json` in Claude Code's config folder. */
 export const LIVE = 'custom:tint'
 
-// The four files in `themes/` as Claude Code lists them while the mod is loaded. The mod draws for
-// these names and never writes for them. They are a person's way to hold one look and one mode, and
-// a test session forces one of them so that it cannot write the real theme file.
+// The names Claude Code gives the four files in `looks/` when a copy of them is in a `themes/` folder
+// of the mod. The mod ships no such folder, so /theme lists only "Tint (auto)". A test session makes
+// the copy and forces one of these names, because the mod draws for them and never writes for them.
 const FIXED: Record<string, NonNullable<TintActive>> = {
   'custom:tint:tint-warm-dark': { look: 'warm', mode: 'dark' },
   'custom:tint:tint-warm-light': { look: 'warm', mode: 'light' },

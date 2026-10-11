@@ -81,7 +81,7 @@ const settle = async ($: EngineInterface, wrote: Wrote, look?: TintLook): Promis
   const want = look ?? lookOf(await textOf($, lookFile))
   const held = await textOf($, themeFile)
   const mode = asked ?? modeOf(held) ?? 'dark'
-  const text = liveText(await $.fs.read(`${$.plugin.root}/themes/tint-${want}-${mode}.json`))
+  const text = liveText(await $.fs.read(`${$.plugin.root}/looks/tint-${want}-${mode}.json`))
 
   if (look !== undefined) {
     await $.fs.write(lookFile, `${look}\n`)

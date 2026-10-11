@@ -38,7 +38,7 @@ const world = (on: On, theme: string, isDark: boolean, files: Record<string, str
     return { value: e.value }
   })
   on('fs.read', ($, e) => {
-    const shipped = /\/themes\/tint-(warm|grok)-(dark|light)\.json$/.exec(e.path)
+    const shipped = /\/looks\/tint-(warm|grok)-(dark|light)\.json$/.exec(e.path)
     // The script the mod ships is under the mod's own folder. The copy is under `tint/` in the config folder.
     const own = e.path.endsWith('/statusline/statusline.sh') ? mac.script : mac.files[e.path]
     const text = shipped === null ? own : source(shipped[1] ?? '', shipped[2] ?? '')
