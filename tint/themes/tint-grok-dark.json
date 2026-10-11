@@ -1,5 +1,5 @@
 {
-  "name": "Tint grok dark",
+  "name": "Tint grok dark (fixed)",
   "base": "dark",
   "overrides": {
     "claude": "#7aa2f7",

@@ -16,10 +16,10 @@ const SCRIPT_FILE = '/home/.claude/tint/statusline.sh'
 const DONE = { stdout: '', stderr: '', isStdoutTruncated: false, isStderrTruncated: false }
 
 /** One of the four source files the mod ships, cut down to what a test reads. */
-const source = (look: string, mode: string): string => JSON.stringify({ name: `Tint ${look} ${mode}`, base: mode, overrides: { claude: look } })
+const source = (look: string, mode: string): string => JSON.stringify({ name: `Tint ${look} ${mode} (fixed)`, base: mode, overrides: { claude: look } })
 
 /** What `tint.json` must hold for a look and a mode. */
-const live = (look: string, mode: string): string => `${JSON.stringify({ name: 'Tint', base: mode, overrides: { claude: look } }, null, 2)}\n`
+const live = (look: string, mode: string): string => `${JSON.stringify({ name: 'Tint (auto)', base: mode, overrides: { claude: look } }, null, 2)}\n`
 
 /** The settings, the disk, macOS and the engine's own drawing, in memory. */
 const world = (on: On, theme: string, isDark: boolean, files: Record<string, string> = {}, env: Record<string, string> = { HOME: '/home' }) => {
@@ -342,7 +342,7 @@ test('one of the four fixed themes is drawn from its name and causes no write', 
   const ui = await $.ui.mount({ plugin: 'tint', surface: 'terminal', component: 'UserMessage', props: PROMPT, viewport: VIEW })
 
   expect((await ui.find({ type: 'Text' }))?.props['color']).toBe('#ffffff')
-  expect((await $.command.run({ command: 'tint', args: 'next', ...ASK })).text).toBe('pick Tint in /theme first')
+  expect((await $.command.run({ command: 'tint', args: 'next', ...ASK })).text).toBe('pick Tint (auto) in /theme first')
   expect(mac.writes).toEqual([])
   expect(mac.files).toEqual(WARM_DARK)
 })
@@ -369,7 +369,7 @@ test('another theme leaves every row stock and causes no write', async ($, on) =
     expect(await ui.find({ text: 'stock' })).toBeDefined()
   }
 
-  expect((await $.command.run({ command: 'tint', args: 'grok', ...ASK })).text).toBe('pick Tint in /theme first')
+  expect((await $.command.run({ command: 'tint', args: 'grok', ...ASK })).text).toBe('pick Tint (auto) in /theme first')
   expect(mac.writes).toEqual([])
   expect(mac.files).toEqual(WARM_DARK)
 })

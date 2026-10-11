@@ -32,7 +32,7 @@ export const fixedOf = (theme: unknown): TintActive => (typeof theme === 'string
 export const lookOf = (text: string | undefined): TintLook => (text?.trim() === 'grok' ? 'grok' : 'warm')
 
 /** The text of `tint.json` for one of the four source files in `themes/`. */
-export const liveText = (source: string): string => `${JSON.stringify({ ...(JSON.parse(source) as object), name: 'Tint' }, null, 2)}\n`
+export const liveText = (source: string): string => `${JSON.stringify({ ...(JSON.parse(source) as object), name: 'Tint (auto)' }, null, 2)}\n`
 
 /** Which mode a theme file holds, by its `base`. */
 export const modeOf = (text: string | undefined): TintMode | undefined => {

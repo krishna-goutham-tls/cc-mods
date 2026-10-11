@@ -1,5 +1,5 @@
 {
-  "name": "Tint warm light",
+  "name": "Tint warm light (fixed)",
   "base": "light",
   "overrides": {
     "claude": "#c15f3c",

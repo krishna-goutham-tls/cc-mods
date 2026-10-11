@@ -52,7 +52,7 @@ The status line works without the theme, and the theme works without the status 
 
 ## Pick the theme
 
-Type `/theme` and choose "Tint". Claude Code stores the choice as `custom:tint`.
+Type `/theme` and choose "Tint (auto)". Claude Code stores the choice as `custom:tint`.
 
 Claude Code does not let a mod set a custom theme, so you pick it once by hand. From then on the mod rewrites the theme's file, `~/.claude/themes/tint.json`, when the look or the mode changes. Claude Code reads a theme file again when it changes, in every open session.
 
@@ -69,7 +69,7 @@ With any other theme the session looks standard.
 
 The answer is one line with the look and the mode, for example `grok dark`. The blocks and the colors change in every open session within 5 seconds, and the status line follows.
 
-`/tint` works while the theme is "Tint". With another theme it answers `pick Tint in /theme first`.
+`/tint` works while the theme is "Tint (auto)". With another theme it answers `pick Tint (auto) in /theme first`.
 
 Running `/tint` does not call the model. Claude Code keeps the command and its one line of output in the conversation, so Claude reads them with your next prompt. That is a few dozen tokens for each run.
 
@@ -123,7 +123,7 @@ The config folder is `~/.claude`, or the folder in `CLAUDE_CONFIG_DIR` when Clau
 
 ## How it works
 
-- `themes/` has the four sets of colors. `tint.json` always holds one of them with the name set to "Tint". To change a color, change it in these four files.
+- `themes/` has the four sets of colors. `tint.json` always holds one of them with the name set to "Tint (auto)". To change a color, change it in these four files.
 - `hooks/register.tsx` has the hooks: the blocks, `/tint`, and the timer that keeps `tint.json` in step.
 - `hooks/palette.ts` has the two colors that no theme key holds: the text color in your block and the fill of the reply.
 - `statusline/statusline.sh` reads the session JSON on stdin and prints one line. The field list is at https://code.claude.com/docs/en/statusline.

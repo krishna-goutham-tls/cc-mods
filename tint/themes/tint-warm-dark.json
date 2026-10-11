@@ -1,5 +1,5 @@
 {
-  "name": "Tint warm dark",
+  "name": "Tint warm dark (fixed)",
   "base": "dark",
   "overrides": {
     "claude": "#d97757",

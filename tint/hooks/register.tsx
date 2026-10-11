@@ -1,6 +1,6 @@
 // tint: your message and Claude's reply as blocks, in two looks, warm and grok,
 // and the small rows around them on the same left edge. The mod draws while the
-// theme is "Tint" (`custom:tint`) or one of the fixed tint themes. For "Tint" it
+// theme is "Tint (auto)" (`custom:tint`) or one of the fixed tint themes. For "Tint (auto)" it
 // keeps the theme file in step with the look and with macOS dark and light.
 import { atom, read } from 'claude-code'
 import type { EngineInterface, Register } from 'claude-code'
@@ -114,7 +114,7 @@ const settle = async ($: EngineInterface, wrote: Wrote, look?: TintLook): Promis
 
 /**
  * Puts the two files a new install lacks in the config folder. A `tint.json`, so that /theme lists
- * "Tint". And a copy of the status line script, because the folder of an installed mod has its version
+ * "Tint (auto)". And a copy of the status line script, because the folder of an installed mod has its version
  * in the path, and `settings.json` needs a path that stays the same.
  */
 const prepare = async ($: EngineInterface, wrote: Wrote): Promise<void> => {
@@ -135,7 +135,7 @@ const prepare = async ($: EngineInterface, wrote: Wrote): Promise<void> => {
   }
 }
 
-/** Reads the theme and brings the mod, and for "Tint" the theme file, in step with it. */
+/** Reads the theme and brings the mod, and for "Tint (auto)" the theme file, in step with it. */
 const follow = async ($: EngineInterface, wrote: Wrote): Promise<void> => {
   const theme = await themeNow($)
 
@@ -183,7 +183,7 @@ export const register: Register = on => {
 
   on('command.run', { command: 'tint' }, async ($, e) => {
     if ((await themeNow($)) !== LIVE) {
-      return { text: 'pick Tint in /theme first' }
+      return { text: 'pick Tint (auto) in /theme first' }
     }
 
     const asked = e.args.trim().toLowerCase()
