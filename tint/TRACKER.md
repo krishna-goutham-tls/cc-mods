@@ -9,7 +9,7 @@ Open work, in the order to do it. Tick a line only when it is checked in a real 
 ## Check
 
 - [ ] A clean install from the marketplace: the mod writes `tint.json` and `tint/statusline.sh`, `/theme` lists "Tint", and the status line shows with the `bash ~/.claude/tint/statusline.sh` line
-- [ ] Whether `/theme` lists the four fixed themes next to "Tint". They work when set in `settings.json`
+- [x] `/theme` lists the four fixed themes next to "Tint". "Tint grok light" was picked there on 2026-10-11
 - [ ] A real change of macOS appearance with a session open on "Tint"
 - [ ] Two sessions open on "Tint": `/tint next` in one, the other follows within 5 seconds
 - [ ] The blocks in a real terminal window, dark and light. The README pictures are from a test terminal
@@ -24,7 +24,6 @@ Open work, in the order to do it. Tick a line only when it is checked in a real 
 
 ## Build
 
-- [ ] The status line script follows `CLAUDE_CONFIG_DIR`. The mod does, the script reads `~/.claude` only
 - [ ] A way to pick dark or light by hand on "Tint", for Linux and Windows
 - [ ] The desktop app. The mod draws on the terminal only
 
@@ -34,6 +33,7 @@ Open work, in the order to do it. Tick a line only when it is checked in a real 
 - [x] The mod: blocks for the prompt and the reply, `/tint`, the dark and light follower, the generated "Tint" theme
 - [x] Command output, the spinner and the turn end line on the text edge
 - [x] A new install gets `tint.json` and a copy of the status line script at the start of a session
+- [x] The status line script follows `CLAUDE_CONFIG_DIR`
 
 ## Decisions to log
 
@@ -47,3 +47,4 @@ Any change of behaviour an agent makes goes here as one line: date, what changed
 - 2026-10-10: at the start of a session the mod writes `tint.json` when it is missing, whatever theme is active. A new install had no "Tint" in `/theme` without it.
 - 2026-10-10: at the start of a session the mod copies `statusline/statusline.sh` to `tint/statusline.sh` in the config folder when the text differs. An installed mod's folder has its version in the path.
 - 2026-10-10: the four fixed theme names are `custom:tint:tint-<look>-<mode>`, the names Claude Code gives the files in `themes/`. The four names without the second `tint:`, for theme files linked by hand into `~/.claude/themes/`, are gone.
+- 2026-10-11: the status line script reads `tint/active` and `settings.json` from the folder in `CLAUDE_CONFIG_DIR` when it is set. It read `~/.claude` only, so a session with its own config folder got the look of the default one.

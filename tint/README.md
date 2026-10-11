@@ -119,7 +119,7 @@ A mod runs inside Claude Code, so it is fair to ask what this one does.
 
 `claude plugin validate tint`, run from the root of the repo, prints the calls from the source.
 
-The config folder is `~/.claude`, or the folder in `CLAUDE_CONFIG_DIR` when Claude Code was started with one. The status line script reads `~/.claude` only.
+The config folder is `~/.claude`, or the folder in `CLAUDE_CONFIG_DIR` when Claude Code was started with one. The status line script reads the same folder.
 
 ## How it works
 

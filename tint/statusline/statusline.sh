@@ -52,15 +52,18 @@ while [ -n "$d" ]; do
   d=${d%/*}
 done
 
+# Claude Code's config folder: CLAUDE_CONFIG_DIR when it is set, ~/.claude otherwise.
+cfg=${CLAUDE_CONFIG_DIR:-$HOME/.claude}
+
 look=warm
-[ -r "$HOME/.claude/tint/active" ] && read -r look <"$HOME/.claude/tint/active"
+[ -r "$cfg/tint/active" ] && read -r look <"$cfg/tint/active"
 # The theme picked in /theme wins, so the bar and the transcript never disagree.
 while IFS= read -r line; do
   case $line in
     *'"theme"'*tint-grok*) look=grok; break ;;
     *'"theme"'*tint-warm*) look=warm; break ;;
   esac
-done <"$HOME/.claude/settings.json" 2>/dev/null
+done <"$cfg/settings.json" 2>/dev/null
 
 # The ANSI colors come from the terminal's own palette, so they follow its dark and light.
 # The warm orange is not in that palette, so it needs the mode. Only macOS has `defaults`.
