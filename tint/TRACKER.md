@@ -2,10 +2,6 @@
 
 Open work, in the order to do it. Tick a line only when it is checked in a real terminal.
 
-## Decide
-
-- [ ] The engine's markdown colors as they are, or a renderer of our own. Today the theme files cannot reach headings, inline code or code fences in a reply
-
 ## Check
 
 - [ ] A clean install from the marketplace: the mod writes `tint.json` and `tint/statusline.sh`, `/theme` lists "Tint", and the status line shows with the `bash ~/.claude/tint/statusline.sh` line
@@ -47,4 +43,5 @@ Any change of behaviour an agent makes goes here as one line: date, what changed
 - 2026-10-10: at the start of a session the mod writes `tint.json` when it is missing, whatever theme is active. A new install had no "Tint" in `/theme` without it.
 - 2026-10-10: at the start of a session the mod copies `statusline/statusline.sh` to `tint/statusline.sh` in the config folder when the text differs. An installed mod's folder has its version in the path.
 - 2026-10-10: the four fixed theme names are `custom:tint:tint-<look>-<mode>`, the names Claude Code gives the files in `themes/`. The four names without the second `tint:`, for theme files linked by hand into `~/.claude/themes/`, are gone.
+- 2026-10-11: a reply stays on the engine's markdown renderer. Headings, list markers and inline code keep the engine's colors. A renderer of our own would be the largest part of the mod, for three colors.
 - 2026-10-11: the status line script reads `tint/active` and `settings.json` from the folder in `CLAUDE_CONFIG_DIR` when it is set. It read `~/.claude` only, so a session with its own config folder got the look of the default one.
