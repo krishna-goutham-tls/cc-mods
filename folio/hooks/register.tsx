@@ -398,7 +398,9 @@ export const register: Register = on => {
 
     // The pane comes back where the person left it open.
     if ((await $.store.get(`open:${base}`).catch(() => undefined)) === true) {
-      void $.ui.open({ id: PANE, title: TITLE })
+      const width = await $.store.get(`columns:${base}`).catch(() => undefined)
+
+      void $.ui.open({ id: PANE, title: TITLE, ...(typeof width === 'number' ? { columns: clamp(Math.round(width), 60, 124), rows: 28 } : {}) })
     }
 
     return next(e)
@@ -430,6 +432,7 @@ export const register: Register = on => {
     const opened = await $.ui.open({ id: PANE, title: TITLE, columns, rows: 28 })
 
     await $.store.set(`open:${base}`, true)
+    await $.store.set(`columns:${base}`, columns)
 
     return opened.isPlaced ? {} : { text: `The files pane is open but waits for room: ${opened.reason}` }
   })

@@ -135,11 +135,25 @@ const prepare = async ($: EngineInterface, wrote: Wrote): Promise<void> => {
   }
 }
 
+/**
+ * A fixed name counts only while its file is in the mod's `themes/` folder. A name an older build
+ * left in the settings has no theme behind it, so the mod draws nothing for it.
+ */
+const fixedNow = async ($: EngineInterface, theme: unknown): Promise<TintActive> => {
+  const fixed = fixedOf(theme)
+
+  if (fixed === null) {
+    return null
+  }
+
+  return (await textOf($, `${$.plugin.root}/themes/tint-${fixed.look}-${fixed.mode}.json`)) === undefined ? null : fixed
+}
+
 /** Reads the theme and brings the mod, and for "Tint (auto)" the theme file, in step with it. */
 const follow = async ($: EngineInterface, wrote: Wrote): Promise<void> => {
   const theme = await themeNow($)
 
-  await remember($, theme === LIVE ? await settle($, wrote) : fixedOf(theme))
+  await remember($, theme === LIVE ? await settle($, wrote) : await fixedNow($, theme))
 }
 
 export const register: Register = on => {

@@ -23,3 +23,5 @@ Open work, in the order to do it. Tick a line only when it is checked in a real 
 Any change of behaviour an agent makes goes here as one line: date, what changed, why.
 
 - 2026-10-11: the `Edit` and `Write` hooks in `hooks/register.tsx` test `'file_path' in e` before they read it. An MCP tool with an input named `tool` adds a variant without `file_path` to the type of `e`, and `tsc` failed. What the pane does is the same.
+- 2026-10-11: every text in the pane names a theme color (`C.text` in `hooks/theme.ts`). Before, body text took the terminal's own text color, and a terminal that disagreed with the theme gave light text on a light pane.
+- 2026-10-11: `/files` keeps the width it asked for in the store (`columns:<project>`), and the pane that comes back at the start of a session asks for the same width. Before, it asked for none and could leave the chat very narrow.

@@ -50,7 +50,7 @@ const piece = (el: El, span: Span): RenderElement => {
     ...(span.underline === true ? { underline: true } : {}),
     ...(span.strike === true ? { strikethrough: true } : {}),
     ...(span.dim === true ? { dimColor: true } : {}),
-    ...(span.color === undefined ? {} : { color: span.color }),
+    color: span.color ?? C.text,
     ...(span.bg === undefined ? {} : { backgroundColor: span.bg }),
   }
 
@@ -112,7 +112,7 @@ const treeRow = (el: El, props: PaneProps, node: Node, cells: number): RenderEle
         {isOpenFile ? <Text color={C.accent}>▎</Text> : ' '}
         {indent}
         {node.isDir ? <Text color={C.muted}>{mark}</Text> : mark}
-        <Text {...(isOpenFile ? { bold: true } : {})} {...(isQuiet && !isOpenFile ? { color: C.muted } : {})}>
+        <Text {...(isOpenFile ? { bold: true } : {})} color={isQuiet && !isOpenFile ? C.muted : C.text}>
           {name}
         </Text>
         {dot === ' ' ? ' ' : <Text color={C.touched}>{dot}</Text>}
@@ -131,7 +131,7 @@ const tree = (el: El, props: PaneProps): RenderElement => {
     <Box flexDirection="column" width={cells} height={frame.rows} overflow="hidden">
       <Box key="tree-head" flexDirection="row" width={cells} height={1} overflow="hidden">
         <Box width={Math.max(1, cells - 3)}>
-          <Text bold wrap="truncate-end">
+          <Text bold color={C.text} wrap="truncate-end">
             {` ${truncate(props.title, cells - 5)}`}
           </Text>
         </Box>
@@ -314,7 +314,7 @@ const textRow = (el: El, props: PaneProps, row: Row, index: number, cells: numbe
             {...(span.italic === true ? { italic: true } : {})}
             {...(span.underline === true ? { underline: true } : {})}
             {...(span.dim === true ? { dimColor: true } : {})}
-            {...(span.color === undefined ? {} : { color: span.color })}
+            color={span.color ?? C.text}
           >
             {span.text}
           </Text>
@@ -334,7 +334,7 @@ const body = (el: El, props: PaneProps, cells: number, rows: number): RenderElem
     const say = (text: string, isStrong: boolean) => {
       const free = ' '.repeat(Math.max(0, Math.floor((cells - width(text)) / 2)))
 
-      return isStrong ? <Text bold>{free + text}</Text> : <Text color={C.muted}>{free + text}</Text>
+      return isStrong ? <Text bold color={C.text}>{free + text}</Text> : <Text color={C.muted}>{free + text}</Text>
     }
 
     for (let r = 0; r < lead; r += 1) {

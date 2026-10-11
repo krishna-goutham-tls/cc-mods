@@ -23,7 +23,7 @@ const live = (look: string, mode: string): string => `${JSON.stringify({ name: '
 
 /** The settings, the disk, macOS and the engine's own drawing, in memory. */
 const world = (on: On, theme: string, isDark: boolean, files: Record<string, string> = {}, env: Record<string, string> = { HOME: '/home' }) => {
-  const mac = { theme, isDark, hasDefaults: true, script: undefined as string | undefined, files: { ...files }, writes: [] as string[] }
+  const mac = { theme, isDark, hasDefaults: true, hasCopy: true, script: undefined as string | undefined, files: { ...files }, writes: [] as string[] }
   const clock = mock.clock(on)
 
   mock.env(on, env)
@@ -41,7 +41,9 @@ const world = (on: On, theme: string, isDark: boolean, files: Record<string, str
     const shipped = /\/looks\/tint-(warm|grok)-(dark|light)\.json$/.exec(e.path)
     // The script the mod ships is under the mod's own folder. The copy is under `tint/` in the config folder.
     const own = e.path.endsWith('/statusline/statusline.sh') ? mac.script : mac.files[e.path]
-    const text = shipped === null ? own : source(shipped[1] ?? '', shipped[2] ?? '')
+    // A test copy of the mod also holds the four files in `themes/`. The mod as shipped does not.
+    const copy = mac.hasCopy ? /\/themes\/tint-(warm|grok)-(dark|light)\.json$/.exec(e.path) : null
+    const text = copy !== null ? source(copy[1] ?? '', copy[2] ?? '') : shipped === null ? own : source(shipped[1] ?? '', shipped[2] ?? '')
 
     if (text === undefined) {
       throw new Error('ENOENT')
@@ -345,6 +347,18 @@ test('one of the four fixed themes is drawn from its name and causes no write', 
   expect((await $.command.run({ command: 'tint', args: 'next', ...ASK })).text).toBe('pick Tint (auto) in /theme first')
   expect(mac.writes).toEqual([])
   expect(mac.files).toEqual(WARM_DARK)
+})
+
+test('a fixed theme name with no file behind it leaves every row stock', async ($, on) => {
+  const { mac, clock } = world(on, 'custom:tint:tint-grok-dark', false, WARM_DARK)
+  mac.hasCopy = false
+  await $.session.start(START)
+  await clock.advance(20000)
+
+  const ui = await $.ui.mount({ plugin: 'tint', surface: 'terminal', component: 'UserMessage', props: PROMPT, viewport: VIEW })
+
+  expect((await ui.find({ type: 'Text' }))?.props['color']).not.toBe('#ffffff')
+  expect(mac.writes).toEqual([])
 })
 
 test('another theme leaves every row stock and causes no write', async ($, on) => {
