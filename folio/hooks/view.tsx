@@ -1,6 +1,6 @@
 // Draws the pane: the file tree, the reader, and the thin marks between them.
 // Every element here is one terminal row tall unless it says its height.
-import type { Elements, RenderElement } from 'claude-code'
+import type { Elements, RenderElement, UiPressArgument } from 'claude-code'
 
 import type { FolioMode } from '../types'
 import { baseOf } from './files'
@@ -19,6 +19,7 @@ export type Actions = {
   back: () => void
   mode: (mode: FolioMode) => void
   reveal: () => void
+  copy: (press: UiPressArgument) => void
   mention: () => void
   outside: () => void
   follow: (href: string) => void
@@ -236,10 +237,10 @@ const header = (el: El, props: PaneProps, cells: number): RenderElement => {
 const footer = (el: El, props: PaneProps, cells: number): RenderElement => {
   const { Box, Text, Button } = el
   const { doc } = props
-  const actions = doc === undefined ? 0 : doc.isLocked ? 'Reveal   Mention   Open'.length : 'Mention   Open'.length
-  const room = Math.max(0, cells - actions - 2)
+  const names = doc === undefined ? [] : [...(doc.isLocked ? ['Reveal'] : []), ...(doc.canCopy ? ['Copy'] : []), 'Mention', 'Open']
+  const room = Math.max(0, cells - names.join('   ').length - 2)
   const meta = doc === undefined ? '' : truncate(doc.meta.join('  ·  '), room)
-  const action = (key: string, text: string, onPress: () => void) => (
+  const action = (key: string, text: string, onPress: (press: UiPressArgument) => void) => (
     <Button key={key} plain hover={{ inverse: false, color: C.accent }} onPress={onPress}>
       <Text color={C.muted}>{text}</Text>
     </Button>
@@ -258,6 +259,8 @@ const footer = (el: El, props: PaneProps, cells: number): RenderElement => {
       </Box>
       {doc.isLocked ? action('act:reveal', 'Reveal', props.on.reveal) : null}
       {doc.isLocked ? <Text>{'   '}</Text> : null}
+      {doc.canCopy ? action('act:copy', 'Copy', props.on.copy) : null}
+      {doc.canCopy ? <Text>{'   '}</Text> : null}
       {action('act:mention', 'Mention', props.on.mention)}
       <Text>{'   '}</Text>
       {action('act:open', 'Open', props.on.outside)}

@@ -8,6 +8,8 @@ const TABLE = new Set(['csv', 'tsv'])
 const IMAGE = new Set(['png', 'jpg', 'jpeg', 'gif', 'webp', 'bmp', 'tif', 'tiff', 'heic', 'heif', 'ico', 'avif'])
 /** Files macOS Quick Look can draw a first page of. */
 const LOOK = new Set(['pdf', 'svg', 'docx', 'doc', 'xlsx', 'xls', 'pptx', 'ppt', 'key', 'pages', 'numbers', 'mp4', 'mov', 'm4v', 'psd', 'ai', 'eps'])
+/** Text files that Quick Look can also draw: Read shows the drawing, Source the text. */
+const PAGE = new Set(['svg', 'html', 'htm'])
 const BINARY = new Set([
   'zip', 'gz', 'tar', 'tgz', 'bz2', 'xz', '7z', 'rar', 'dmg', 'pkg', 'exe', 'dll', 'so', 'dylib', 'o', 'a', 'class', 'jar', 'wasm',
   'woff', 'woff2', 'ttf', 'otf', 'eot', 'mp3', 'wav', 'm4a', 'flac', 'ogg', 'sqlite', 'db', 'bundle', 'bin', 'icns', 'lockb', 'pyc', 'node',
@@ -21,7 +23,7 @@ const SECRET = [/^\.env(\..+)?$/i, /\.(pem|key|p12|pfx|keystore|jks)$/i, /^id_(r
 const LABELS: Record<string, string> = {
   md: 'Markdown', mdx: 'MDX', ts: 'TypeScript', tsx: 'TypeScript', js: 'JavaScript', jsx: 'JavaScript', mjs: 'JavaScript', cjs: 'JavaScript',
   json: 'JSON', jsonl: 'JSON lines', yml: 'YAML', yaml: 'YAML', toml: 'TOML', py: 'Python', rb: 'Ruby', go: 'Go', rs: 'Rust',
-  sh: 'Shell', zsh: 'Shell', bash: 'Shell', css: 'CSS', scss: 'SCSS', html: 'HTML', xml: 'XML', sql: 'SQL', txt: 'Text', log: 'Log',
+  sh: 'Shell', zsh: 'Shell', bash: 'Shell', css: 'CSS', scss: 'SCSS', html: 'HTML', htm: 'HTML', xml: 'XML', sql: 'SQL', txt: 'Text', log: 'Log',
   csv: 'CSV', tsv: 'TSV', pdf: 'PDF', svg: 'SVG', png: 'PNG image', jpg: 'JPEG image', jpeg: 'JPEG image', gif: 'GIF image',
   webp: 'WebP image', heic: 'HEIC image', docx: 'Word document', xlsx: 'Excel workbook', pptx: 'PowerPoint deck', mp4: 'Video',
   mov: 'Video', zip: 'Zip archive', swift: 'Swift', kt: 'Kotlin', java: 'Java', c: 'C', h: 'C header', cpp: 'C++', lock: 'Lock file',
@@ -155,9 +157,12 @@ export const parseTable = (text: string, separator: string, limit: number): stri
   return rows.filter(cells => cells.some(value => value.trim() !== ''))
 }
 
+/** True for a text file that Quick Look draws as a picture: an SVG or a web page. */
+export const isPage = (name: string): boolean => PAGE.has(extOf(name))
+
 /** True when the file has a formatted form and a source form to switch between. */
 export const hasTwoForms = (name: string): boolean => {
   const kind = kindOf(name)
 
-  return kind === 'markdown' || kind === 'table' || extOf(name) === 'svg'
+  return kind === 'markdown' || kind === 'table' || isPage(name)
 }

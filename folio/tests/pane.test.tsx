@@ -6,6 +6,7 @@ const FILES: Record<string, string> = {
   'README.md': '# Harbor\n\nA **small** booking system.\n\nSee the [guide](docs/guide.md).\n',
   'docs/guide.md': '# Guide\n\nTen minutes.\n',
   'src/app.ts': 'export const a = 1\n',
+  'site/index.html': '<!doctype html>\n<h1>Harbor</h1>\n',
   '.env': 'KEY=secret-value\n',
 }
 const PANE = { title: 'Files', isFocused: false, bodyColumns: 110, placement: 'dock', scroll: { offset: 0, bodyRows: 40 }, view: {} } as const
@@ -141,4 +142,50 @@ test('a path that is not in the project is refused in words', async ($, on) => {
   const answer = await $.command.run({ command: 'files', args: 'nope.md', ...ASK })
 
   expect(answer.text).toContain('No file or folder at nope.md')
+})
+
+test('a web page has a Read form and a Source form', async ($, on) => {
+  disk(on)
+  on('process.run', () => {
+    throw new Error('no Quick Look in a test')
+  })
+  await $.command.run({ command: 'files', args: 'site/index.html', ...ASK })
+
+  const ui = await $.ui.mount({ plugin: 'folio', surface: 'terminal', component: 'Pane', requestId: 'folio', props: PANE, viewport: VIEW })
+
+  // No Quick Look here, so Read shows a notice. The toggle stays.
+  expect(await ui.find({ type: 'Code' })).toBeUndefined()
+  expect(await ui.find({ key: 'mode:read' })).toBeDefined()
+  await ui.press({ key: 'mode:source' })
+  expect((await ui.find({ type: 'Code' }))?.props['source']).toContain('<h1>Harbor</h1>')
+})
+
+test('Copy puts the whole file on the clipboard', async ($, on) => {
+  disk(on)
+
+  const copied: string[] = []
+
+  on('ui.copy', ($, e) => {
+    copied.push(e.text)
+
+    return { value: { isCopied: true as const } }
+  })
+  on('ui.toast', () => ({ value: undefined }))
+  await $.command.run({ command: 'files', args: 'README.md', ...ASK })
+
+  const ui = await $.ui.mount({ plugin: 'folio', surface: 'terminal', component: 'Pane', requestId: 'folio', props: PANE, viewport: VIEW })
+
+  await ui.press({ key: 'act:copy' })
+  expect(copied).toEqual([FILES['README.md'] ?? ''])
+})
+
+test('a hidden file has no Copy until the person reveals it', async ($, on) => {
+  disk(on)
+  await $.command.run({ command: 'files', args: '.env', ...ASK })
+
+  const ui = await $.ui.mount({ plugin: 'folio', surface: 'terminal', component: 'Pane', requestId: 'folio', props: PANE, viewport: VIEW })
+
+  expect(await ui.find({ key: 'act:copy' })).toBeUndefined()
+  await ui.press({ key: 'act:reveal' })
+  expect(await ui.find({ key: 'act:copy' })).toBeDefined()
 })

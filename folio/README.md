@@ -29,6 +29,7 @@ folio is built and tested on Claude Code 2.1.296. Mods are early access, so a la
 | Scroll over the document or the tree | Moves that part only |
 | Click `Read` or `Source` | Shows the formatted document or the text as written |
 | Click a link to a file of the project | Opens that file |
+| Click `Copy` | Puts the text of the open file on the clipboard |
 | Click `Mention` | Puts `@path` in the prompt |
 | Click `Open` | Opens the file in its Mac app |
 | Click `⇄` | Moves the tree to the other side |
@@ -43,7 +44,8 @@ folio is built and tested on Claude Code 2.1.296. Mods are early access, so a la
 | Code and text | Claude Code's syntax colours, with line numbers |
 | CSV and TSV | A table |
 | PNG, JPG, GIF, HEIC | The picture, in a terminal with the kitty graphics protocol such as Ghostty or kitty |
-| PDF, Office files, SVG | The first page as a picture, made by macOS Quick Look |
+| PDF, Office files | The first page as a picture, made by macOS Quick Look |
+| HTML, SVG | `Read` shows the top of the page as a picture, made by macOS Quick Look. `Source` shows the text |
 | `.env`, keys, credentials | A notice. The text stays hidden until you click `Reveal`, so a shared screen or a recording is safe |
 | Other files | The name and size. `Open` shows the file in its own app |
 
@@ -57,7 +59,7 @@ The pane follows your light or dark theme.
 
 A mod runs inside Claude Code, so it is fair to ask what this one does.
 
-- It reads files under the project folder, and only to show them in the pane. The text does not go to the model.
+- It reads files under the project folder, only to show them in the pane, or to put one on the clipboard when you click `Copy`. The text does not go to the model.
 - It writes nothing in your project.
 - It makes no network call.
 - It runs five macOS programs: `sips` and `qlmanage` to make a picture preview, `mkdir` and `mv` for that preview in the temp folder, and `open` when you click `Open`.

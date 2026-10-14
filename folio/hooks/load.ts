@@ -1,6 +1,6 @@
 // A file's content as the rows the reader shows. Nothing here reads the disk:
 // the hooks module reads, and hands the text or the picture's size to these.
-import { ageText, baseOf, isSecret, kindOf, labelOf, parseTable, sizeText } from './files'
+import { ageText, baseOf, hasTwoForms, isPage, isSecret, kindOf, labelOf, parseTable, sizeText } from './files'
 import type { Kind } from './files'
 import { renderMarkdown, tableRows } from './markdown'
 import type { Doc, Picture } from './model'
@@ -70,6 +70,7 @@ export const notice = (request: DocRequest, facts: FileFacts | undefined, title:
     canToggle: false,
     isCard: true,
     isLocked: false,
+    canCopy: false,
     rows: card(request.columns, [[{ text: title, bold: true }], [], ...lines.map(text => [{ text, color: C.muted }])]),
   }
 }
@@ -93,11 +94,11 @@ export const planOf = (request: DocRequest): 'locked' | 'picture' | 'opaque' | '
     return 'locked'
   }
 
-  if (kind === 'image' || (kind === 'look' && !request.isSource)) {
+  if (kind === 'image' || ((kind === 'look' || isPage(name)) && !request.isSource)) {
     return 'picture'
   }
 
-  return kind === 'binary' || kind === 'look' ? (name.toLowerCase().endsWith('.svg') ? 'text' : 'opaque') : 'text'
+  return kind === 'binary' || (kind === 'look' && !isPage(name)) ? 'opaque' : 'text'
 }
 
 export const hash = (text: string): string => {
@@ -134,9 +135,10 @@ export const pictureDoc = (request: DocRequest, facts: FileFacts, made: { file: 
     kind,
     rows: [],
     meta: [labelOf(name), ...(kind === 'image' ? [`${made.width} × ${made.height}`] : []), ...about(request, facts)],
-    canToggle: name.toLowerCase().endsWith('.svg'),
+    canToggle: isPage(name),
     isCard: false,
     isLocked: false,
+    canCopy: isPage(name),
     picture,
   }
 }
@@ -196,6 +198,7 @@ export const textDoc = (request: DocRequest, facts: FileFacts, text: string): Do
       canToggle: true,
       isCard: false,
       isLocked: false,
+      canCopy: true,
     }
   }
 
@@ -215,6 +218,7 @@ export const textDoc = (request: DocRequest, facts: FileFacts, text: string): Do
       canToggle: true,
       isCard: cells.length === 0,
       isLocked: false,
+      canCopy: true,
     }
   }
 
@@ -223,8 +227,9 @@ export const textDoc = (request: DocRequest, facts: FileFacts, text: string): Do
     kind: kind === 'markdown' || kind === 'table' || kind === 'look' ? kind : 'code',
     rows: source.rows,
     meta: meta(source.isCut ? `first ${MAX_LINES} of ${lines}` : lines),
-    canToggle: kind === 'markdown' || kind === 'table' || kind === 'look',
+    canToggle: hasTwoForms(name),
     isCard: false,
     isLocked: false,
+    canCopy: true,
   }
 }

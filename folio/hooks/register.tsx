@@ -4,7 +4,7 @@ import { atom, read, update } from 'claude-code'
 import type { EngineInterface, Register } from 'claude-code'
 
 import type { FolioMode, FolioUi } from '../types'
-import { baseOf, dirOf, hasTwoForms, isHidden, kindOf } from './files'
+import { baseOf, dirOf, hasTwoForms, isHidden, isPage, kindOf } from './files'
 import { MAX_TEXT_BYTES, byName, goneDoc, hash, lockedDoc, notice, opaqueDoc, pictureDoc, planOf, textDoc } from './load'
 import type { DocRequest, Entry } from './load'
 import type { Doc, Frame, Node } from './model'
@@ -249,7 +249,11 @@ const loadDoc = async ($: EngineInterface, request: DocRequest): Promise<Doc> =>
     } else if (plan === 'picture') {
       const made = await preview($, abs, kindOf(baseOf(request.path)) === 'image', `${stat.mtimeMs}|${stat.size}`)
 
-      doc = made === undefined ? opaqueDoc(request, stat, 'No preview for this file here.') : pictureDoc(request, stat, made)
+      doc =
+        made === undefined
+          ? // A page keeps its toggle, so Source still shows the text.
+            { ...opaqueDoc(request, stat, 'No preview for this file here.'), canToggle: isPage(baseOf(request.path)) }
+          : pictureDoc(request, stat, made)
     } else if (plan === 'opaque') {
       doc = opaqueDoc(request, stat, 'This file is not text.')
     } else if (stat.size > MAX_TEXT_BYTES) {
@@ -589,6 +593,15 @@ export const register: Register = on => {
         back: () => change(now => ({ ...now, selected: '' })),
         mode: (mode: FolioMode) => change(now => ({ ...now, mode, docTop: 0 })),
         reveal: () => change(now => ({ ...now, revealed: [...now.revealed, state.selected] })),
+        copy: press => {
+          const name = baseOf(state.selected)
+
+          void $.fs
+            .read(`${base}/${state.selected}`)
+            .then(text => $.ui.copy({ text, surface: press.surface }))
+            .then(done => $.ui.toast(done.isCopied ? `Copied ${name}` : `${name} was not copied`))
+            .catch(() => $.ui.toast(`${name} could not be read`))
+        },
         mention: () => {
           void $.prompt.fill({ text: `@${state.selected} `, mode: 'insert' })
         },

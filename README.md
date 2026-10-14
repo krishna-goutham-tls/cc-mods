@@ -57,6 +57,7 @@ Answer `y` to add the marketplace, then pick a scope. The user scope loads the m
 | `/files docs/guide.md` | Opens that file and its folder |
 | Click a file or a folder | Shows the file, or opens and closes the folder |
 | Click `Read` or `Source` | Shows the formatted document, or the text as written |
+| Click `Copy` | Puts the text of the open file on the clipboard |
 | Click `Mention` | Puts `@path` in the prompt |
 | Click `Open` | Opens the file in its Mac app |
 | <kbd>ctrl</kbd>+<kbd>x</kbd> <kbd>tab</kbd> | Gives the pane the keyboard. <kbd>esc</kbd> returns to the prompt |
@@ -72,7 +73,8 @@ Answer `y` to add the marketplace, then pick a scope. The user scope loads the m
 | Code and text | Claude Code's syntax colours, with line numbers |
 | CSV and TSV | A table |
 | PNG, JPG, GIF, HEIC | The picture, in a terminal with the kitty graphics protocol, such as Ghostty or kitty |
-| PDF, Office files, SVG | The first page as a picture, made by macOS Quick Look |
+| PDF, Office files | The first page as a picture, made by macOS Quick Look |
+| HTML, SVG | `Read` shows the top of the page as a picture, made by macOS Quick Look. `Source` shows the text |
 | `.env`, keys, credentials | A notice. The text stays hidden until you click `Reveal`, so a shared screen or a recording is safe |
 | Other files | The name and the size. `Open` shows the file in its own app |
 

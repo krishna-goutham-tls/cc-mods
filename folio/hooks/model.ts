@@ -28,6 +28,8 @@ export type Doc = {
   isCard: boolean
   /** True while the file's text is held back. */
   isLocked: boolean
+  /** True when the file is text that Copy can put on the clipboard. */
+  canCopy: boolean
   picture?: Picture
 }
 
