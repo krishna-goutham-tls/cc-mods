@@ -15,7 +15,6 @@ Open work, in the order to do it. Tick a line only when it is checked in a real 
 - [ ] Edit mode in the pane. The mod API's text field is one line, so this needs its own editor
 - [ ] Find a file by name
 - [ ] Git state in the tree: changed and new files
-- [ ] The desktop app
 - [ ] Linux and Windows: picture previews without `sips` and `qlmanage`, and `Open` without `open`
 
 ## Decisions to log

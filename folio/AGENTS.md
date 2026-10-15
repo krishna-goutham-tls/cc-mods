@@ -1,6 +1,6 @@
 # folio
 
-One of the two mods in this repo. The rules for the whole repo are in `../AGENTS.md`.
+One of the mods in this repo. The rules for the whole repo are in `../AGENTS.md`.
 
 A Claude Code mod: `/files` opens a pane beside the chat that shows the files of the project. `README.md` says what it does. `TRACKER.md` has the open work.
 

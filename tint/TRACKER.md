@@ -21,7 +21,6 @@ Open work, in the order to do it. Tick a line only when it is checked in a real 
 ## Build
 
 - [ ] A way to pick dark or light by hand on "Tint (auto)", for Linux and Windows. The fixed light themes are gone from `/theme`, so Linux has only the dark colors
-- [ ] The desktop app. The mod draws on the terminal only
 
 ## Done
 

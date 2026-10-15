@@ -1,6 +1,6 @@
 # tint
 
-One of the two mods in this repo. The rules for the whole repo are in `../AGENTS.md`.
+One of the mods in this repo. The rules for the whole repo are in `../AGENTS.md`.
 
 A restyle of the Claude Code terminal: four color files, a status line script and a mod. `README.md` says what each part does. `TRACKER.md` has the open work.
 
