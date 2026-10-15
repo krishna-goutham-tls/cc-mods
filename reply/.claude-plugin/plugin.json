@@ -1,0 +1,9 @@
+{
+  "name": "reply",
+  "version": "0.1.0",
+  "description": "Highlight part of Claude's answer and reply to it. The text goes into your prompt as a quote.",
+  "types": "./types/index.d.ts",
+  "author": { "name": "Krishna Goutham" },
+  "license": "MIT",
+  "repository": "https://github.com/krishna-goutham-tls/cc-mods"
+}

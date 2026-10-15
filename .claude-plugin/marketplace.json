@@ -1,9 +1,24 @@
 {
   "name": "cc-mods",
-  "description": "Two Claude Code mods: folio shows the files of your project in a pane beside the chat, and tint restyles the transcript.",
-  "owner": { "name": "Krishna Goutham" },
+  "description": "Three Claude Code mods: folio shows the files of your project in a pane beside the chat, tint restyles the transcript, and reply quotes a highlight into your prompt.",
+  "owner": {
+    "name": "Krishna Goutham"
+  },
   "plugins": [
-    { "name": "folio", "source": "./folio", "description": "Read the files of your project in a calm pane beside the chat." },
-    { "name": "tint", "source": "./tint", "description": "Your message and Claude's reply as blocks, in two looks, with a status line." }
+    {
+      "name": "folio",
+      "source": "./folio",
+      "description": "Read the files of your project in a calm pane beside the chat."
+    },
+    {
+      "name": "tint",
+      "source": "./tint",
+      "description": "Your message and Claude's reply as blocks, in two looks, with a status line."
+    },
+    {
+      "name": "reply",
+      "source": "./reply",
+      "description": "Highlight part of Claude's answer and reply to it. The text goes into your prompt as a quote."
+    }
   ]
 }

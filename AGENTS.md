@@ -1,6 +1,6 @@
 # cc-mods
 
-Two Claude Code mods in one repo, `folio/` and `tint/`. `README.md` says what each one does.
+Three Claude Code mods in one repo, `folio/`, `tint/` and `reply/`. `README.md` says what each one does.
 
 ## Where things are
 
@@ -9,6 +9,7 @@ Two Claude Code mods in one repo, `folio/` and `tint/`. `README.md` says what ea
 | The list of mods a person can install from this repo | `.claude-plugin/marketplace.json` |
 | The file pane | `folio/`, start at `folio/AGENTS.md` |
 | The restyle of the transcript and the status line | `tint/`, start at `tint/AGENTS.md` |
+| A highlight quoted into the prompt | `reply/`, start at `reply/AGENTS.md` |
 | Open work for a mod | `TRACKER.md` in its folder |
 
 ## Rules
@@ -31,4 +32,4 @@ claude plugin test folio
 claude --plugin-dir folio       # a session with the mod loaded from its folder
 ```
 
-The same four work for `tint`. Claude Code writes `.claude-plugin/types/` into a mod's folder when it loads the mod from there. `tsc` needs that folder, so load the mod once before the first type-check. Git ignores it.
+The same four work for `tint` and `reply`. Claude Code writes `.claude-plugin/types/` into a mod's folder when it loads the mod from there. `tsc` needs that folder, so load the mod once before the first type-check. Git ignores it.

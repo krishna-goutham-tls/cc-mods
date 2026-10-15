@@ -5,14 +5,15 @@
 <h1 align="center">cc-mods</h1>
 
 <p align="center">
-  Two mods for Claude Code.<br>
-  <b>folio</b> shows the files of your project beside the chat. <b>tint</b> restyles the session.
+  Three mods for Claude Code.<br>
+  <b>folio</b> shows the files of your project beside the chat. <b>tint</b> restyles the session. <b>reply</b> quotes part of an answer into your prompt.
 </p>
 
 <p align="center">
   <a href="#install">Install</a> ·
   <a href="#folio">folio</a> ·
   <a href="#tint">tint</a> ·
+  <a href="#reply">reply</a> ·
   <a href="#which-mod-draws-what">Which mod draws what</a> ·
   <a href="#what-a-mod-can-reach">What a mod can reach</a>
 </p>
@@ -33,9 +34,14 @@ Type a line at the prompt of a Claude Code terminal session. Each mod installs a
 /plugin install tint --marketplace krishna-goutham-tls/cc-mods
 ```
 
+```
+/plugin install reply --marketplace krishna-goutham-tls/cc-mods
+```
+
 Answer `y` to add the marketplace, then pick a scope. The user scope loads the mod in every session.
 
 - folio is ready after the install. Type `/files`.
+- reply is ready after the install. Highlight part of an answer.
 - tint needs two more steps: one line in `settings.json` for the status line, and a pick in `/theme`. They are in [tint/README.md](tint/README.md#turn-the-status-line-on).
 
 ## folio
@@ -116,6 +122,25 @@ You decide two things, and each has one switch.
 
 More in [tint/README.md](tint/README.md).
 
+## reply
+
+Highlight part of Claude's answer and press `1`. The text goes into your prompt as a quote, and you type your reply under it. It works like the reply on a chat message.
+
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="reply/docs/reply-dark-1.png">
+    <img src="reply/docs/reply-light-1.png" alt="A sentence of Claude's answer is highlighted. A row above the prompt reads: Reply to, the sentence, then 1: Reply." width="100%">
+  </picture>
+</p>
+
+| You do | The mod does |
+|---|---|
+| Highlight text | Shows `↳ Reply to "…"  1: Reply` above the prompt |
+| `1` in an empty prompt, or a click on `Reply` | Puts the text in the prompt as a `>` quote. A draft in the prompt stays |
+| Highlight more and press again | Stacks the next quote under the first |
+
+More in [reply/README.md](reply/README.md).
+
 ## Which mod draws what
 
 <p align="center">
@@ -150,24 +175,24 @@ Everything else in the window is Claude Code's own: the header, the prompt box, 
 
 ## What a mod can reach
 
-A mod runs inside Claude Code, so it is fair to ask what these two do.
+A mod runs inside Claude Code, so it is fair to ask what these three do.
 
-| | folio | tint |
-|---|---|---|
-| Reads | Files under the project folder, to show them in the pane | Its own files in `~/.claude`, and the `theme` setting |
-| Writes | Nothing in your project | Three files in `~/.claude`: `themes/tint.json`, `tint/active`, `tint/statusline.sh` |
-| Network | No call | No call |
-| The model | The text of a file does not go to the model | `/tint` does not call the model |
-| Tool calls | Watches Edit and Write to mark the files Claude wrote. Changes and blocks none | Touches none |
-| Programs it runs | `sips`, `qlmanage`, `mkdir`, `mv`, `open` | `defaults`, `mv` |
-| `settings.json` | Never writes it | Never writes it. You add the status line yourself |
+| | folio | tint | reply |
+|---|---|---|---|
+| Reads | Files under the project folder, to show them in the pane | Its own files in `~/.claude`, and the `theme` setting | What you highlight in the terminal, and the prompt box |
+| Writes | Nothing in your project | Three files in `~/.claude`: `themes/tint.json`, `tint/active`, `tint/statusline.sh` | The prompt box, only when you press `Reply`. Never sends it |
+| Network | No call | No call | No call |
+| The model | The text of a file does not go to the model | `/tint` does not call the model | Does not call the model |
+| Tool calls | Watches Edit and Write to mark the files Claude wrote. Changes and blocks none | Touches none | Touches none |
+| Programs it runs | `sips`, `qlmanage`, `mkdir`, `mv`, `open` | `defaults`, `mv` | None |
+| `settings.json` | Never writes it | Never writes it. You add the status line yourself | Never writes it |
 
-`claude plugin validate folio` and `claude plugin validate tint`, run from the root of the repo, print the calls from the source.
+`claude plugin validate folio`, `claude plugin validate tint` and `claude plugin validate reply`, run from the root of the repo, print the calls from the source.
 
 ## Before you install
 
-- Both mods are built and tested on Claude Code 2.1.296. Mods are early access, so a later release of Claude Code can change the API and break them.
-- Both are for the terminal. The desktop app is not done.
+- folio and tint are built and tested on Claude Code 2.1.296, and reply on 2.1.300. Mods are early access, so a later release of Claude Code can change the API and break them.
+- All three are for the terminal. The Claude Desktop app is out of scope on purpose: tint and reply do nothing there, and folio opens with a plain tree.
 - macOS is the only system they have run on. tint has not been run on Linux or Windows.
 - folio only reads. There is no edit mode yet.
 - tint takes dark or light from macOS, so your terminal must follow macOS too. If the two disagree, the reply in the warm look is hard to read.
