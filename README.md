@@ -124,20 +124,21 @@ More in [tint/README.md](tint/README.md).
 
 ## reply
 
-Highlight part of Claude's answer and press `1`. The text goes into your prompt as a quote, and you type your reply under it. It works like the reply on a chat message.
+Highlight part of Claude's answer and click `Reply`. The text goes into your prompt as a quote, and you type your reply under it. It works like the reply on a chat message.
 
 <p align="center">
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="reply/docs/reply-dark-1.png">
-    <img src="reply/docs/reply-light-1.png" alt="A sentence of Claude's answer is highlighted. A row above the prompt reads: Reply to, the sentence, then 1: Reply." width="100%">
+    <img src="reply/docs/reply-light-1.png" alt="A sentence of Claude's answer is highlighted. A row above the prompt reads: Reply to, the sentence, then the buttons Reply and Dismiss." width="100%">
   </picture>
 </p>
 
 | You do | The mod does |
 |---|---|
-| Highlight text | Shows `↳ Reply to "…"  1: Reply` above the prompt |
-| `1` in an empty prompt, or a click on `Reply` | Puts the text in the prompt as a `>` quote. A draft in the prompt stays |
-| Highlight more and press again | Stacks the next quote under the first |
+| Highlight text | Shows `↳ Reply to "…"  [ Reply ] [ Dismiss ]` above the prompt |
+| Click `Reply` | Puts the text in the prompt as a `>` quote. A draft in the prompt stays |
+| Click `Dismiss` | Hides the row until you highlight something new |
+| Highlight more and click again | Stacks the next quote under the first |
 
 More in [reply/README.md](reply/README.md).
 

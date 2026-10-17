@@ -5,8 +5,8 @@ declare module 'claude-code' {
   interface PluginState {
     reply: {
       picked: Picked
-      /** The last text put in the prompt, so the band hides once it is used. */
-      used: string
+      /** The last highlight replied to or dismissed, so the band hides until the next one. */
+      done: string
     }
   }
 }

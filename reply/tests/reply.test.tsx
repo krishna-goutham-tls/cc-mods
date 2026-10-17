@@ -106,6 +106,43 @@ test('a second highlight stacks under the first reply', async ($, on) => {
   expect(screen.draft).toBe('> first part\n\nwhy?\n\n> second part\n\n')
 })
 
+test('Dismiss hides the band and leaves the prompt alone', async ($, on) => {
+  const { screen, clock } = world(on)
+
+  await $.session.start(START)
+  screen.selection = ANSWER
+  await clock.advance(300)
+
+  const ui = await band($)
+
+  await ui.press({ key: 'dismiss' })
+  await clock.advance(300)
+
+  expect(screen.fills).toEqual([])
+  expect(await ui.find({ key: 'reply' })).toBeUndefined()
+  expect(await ui.find({ key: 'dismiss' })).toBeUndefined()
+})
+
+test('a new highlight after Dismiss shows the band again', async ($, on) => {
+  const { screen, clock } = world(on)
+
+  await $.session.start(START)
+  screen.selection = 'first part'
+  await clock.advance(300)
+
+  const ui = await band($)
+
+  await ui.press({ key: 'dismiss' })
+  screen.selection = 'second part'
+  await clock.advance(300)
+
+  expect(await ui.find({ type: 'Text', text: /second part/ })).toBeDefined()
+
+  await ui.press({ key: 'reply' })
+
+  expect(screen.draft).toBe('> second part\n\n')
+})
+
 test('a highlight that is cleared hides the band', async ($, on) => {
   const { screen, clock } = world(on)
 

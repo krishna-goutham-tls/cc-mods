@@ -2,7 +2,7 @@
 
 One of the mods in this repo. The rules for the whole repo are in `../AGENTS.md`.
 
-A Claude Code mod: highlight part of Claude's answer, press `1` or click `Reply`, and the text goes into the prompt as a quote. `README.md` says what it does. `TRACKER.md` has the open work.
+A Claude Code mod: highlight part of Claude's answer, click `Reply`, and the text goes into the prompt as a quote. `README.md` says what it does. `TRACKER.md` has the open work.
 
 ## Where things are
 
